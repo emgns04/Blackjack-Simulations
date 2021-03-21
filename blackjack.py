@@ -49,21 +49,45 @@ def dealer_ace(total, dealer_ace_count):
 
 def game(deck, target):
     deck.shuffle()
-    
-## hands     
+
+##########################    
+## initial hands
+##########################    
     dealer_total = 0
     my_total = 0
     my_cards = []
     dealer_cards = []
     dealer_ace_count = 0
-    
-    condition = False
-    stop_hit = False
-    stop_dealer_hit = False
+
+    for i in range(2):
+    ## player hit
+        new_card = deck.hit()
+        if new_card == "ace":
+            new_card = ace(my_total, target)
+        my_cards.append(new_card)
+        my_total = sum(my_cards)
+        
+    ## dealer hit        
+        dealer_card = deck.hit()
+        if dealer_card == "ace":
+            dealer_card = dealer_ace(dealer_total, dealer_ace_count)
+            dealer_ace_count += 1
+        dealer_cards.append(dealer_card)
+        dealer_total = sum(dealer_cards)
+        
+    ## check if initial blackjack
+    if my_total == 21 or dealer_total == 21:
+        return(int(my_total == 21))
+    if my_total == 21 and dealer_total == 21:
+        return(0)
 #####################    
 #### hit sequence    
 ####################
-    while dealer_total < 22 and my_total < 22 and not condition:
+    condition = False
+    stop_hit = False
+    stop_dealer_hit = False
+
+    while dealer_total < 21 and my_total < 21 and not condition:
         ### my turn
         if my_total < target:
             new_card = deck.hit()
@@ -98,6 +122,13 @@ def game(deck, target):
         return 0
     elif dealer_total > 21:
         return 1
+    ## blackjack
+    elif my_total == 21 and dealer_total != 21:
+        return 1
+    elif dealer_total == 21 and my_total != 21:
+        return 0
+    elif dealer_total == 21 and my_total == 21:
+        return 0
     elif my_total > dealer_total:
         print("dealer: ", dealer_total)
         print("Me:", my_total) 
@@ -107,4 +138,5 @@ def game(deck, target):
         print("Me:", my_total)         
         return 0
     else:
+        # tie
         return .5
