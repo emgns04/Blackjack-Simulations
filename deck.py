@@ -1,17 +1,25 @@
 from random import randrange
+import random
 class Deck:
-    def __init__(self):
-        self.cards = ["ace",2,3,4,5,6,7,8,9,10,10,10,10] * 4 * 8
+    def __init__(self, num_decks = 8):
+        self.cards = ["ace",2,3,4,5,6,7,8,9,10,10,10,10] * 4 * num_decks
+        print("cards exists at: ", id(self.cards))
         self.cutoff = randrange(64, 64*3)
-    
+        self.num_decks = num_decks
+    #@property
     def hit(self):
         card = random.choice(self.cards)
-        cards.remove(card)
+        print("cards exists at: ", id(self.cards))
+        self.cards.remove(card) 
+        print("cards exists at: ", id(self.cards))
+        print("Num cards:", len(self.cards))
         return card
+    #@property
     def shuffle(self):
         # check if need to shuffle
-        if 8*52 - len(self.cards) < self.cutoff:
-            self.cards = ["ace",2,3,4,5,6,7,8,9,10,10,10,10] * 4 * 8
+        if self.num_decks*52 - len(self.cards) > self.cutoff:
+            print("shuffled")
+            self.cards = ["ace",2,3,4,5,6,7,8,9,10,10,10,10] * 4 * self.num_decks
             self.cutoff = randrange(64, 64*3)
         return
 
@@ -34,9 +42,9 @@ def ace(total, target):
 ######################    
     
 def dealer_ace(total, dealer_ace_count):
-    if dealer_ace_count == 0 and total+11 < 22
+    if dealer_ace_count == 0 and total+11 < 22:
         return 11
-    else 
+    else: 
         return 1
     
 #######################
@@ -69,6 +77,7 @@ def game(deck, target):
             my_total = sum(my_cards)
             ## bust
             if my_total > 21:
+                print("I busted, whoops")
                 return 0
         else:
             stop_hit = True
@@ -78,24 +87,28 @@ def game(deck, target):
             if dealer_card == "ace":
                 dealer_card = dealer_ace(dealer_total, dealer_ace_count)
                 dealer_ace_count += 1
-            dealer_cards.append(hit(deck, my_total))
+            dealer_cards.append(dealer_card)
             dealer_total = sum(dealer_cards)
             ### dealer bust
-            if dealer_total > 21 
+            if dealer_total > 21: 
+                print("Dealer busted, I win")
                 return 1
         else:
             stop_dealer_hit = True
-        if stop_hit and stop_:
+        if stop_hit and stop_dealer_hit:
             break
-#     print("dealer: ", dealer_total)
-#     print("Me:", my_total)
+
     if my_total > 21:
         return 0
     elif dealer_total > 21:
         return 1
     elif my_total > dealer_total:
+        print("dealer: ", dealer_total)
+        print("Me:", my_total) 
         return 1
     elif my_total < dealer_total:
+        print("dealer: ", dealer_total)
+        print("Me:", my_total)         
         return 0
     else:
         return .5
