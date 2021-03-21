@@ -3,16 +3,12 @@ import random
 class Deck:
     def __init__(self, num_decks = 8):
         self.cards = ["ace",2,3,4,5,6,7,8,9,10,10,10,10] * 4 * num_decks
-        print("cards exists at: ", id(self.cards))
         self.cutoff = randrange(64, 64*3)
         self.num_decks = num_decks
     #@property
     def hit(self):
         card = random.choice(self.cards)
-        print("cards exists at: ", id(self.cards))
         self.cards.remove(card) 
-        print("cards exists at: ", id(self.cards))
-        print("Num cards:", len(self.cards))
         return card
     #@property
     def shuffle(self):
