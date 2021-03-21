@@ -74,7 +74,8 @@ def game(deck, target):
             dealer_ace_count += 1
         dealer_cards.append(dealer_card)
         dealer_total = sum(dealer_cards)
-        
+    print("Initial hand: ", my_total)
+    print("Dealer initial hand: ", dealer_total)
     ## check if initial blackjack
     if my_total == 21 or dealer_total == 21:
         return(int(my_total == 21))
@@ -97,7 +98,7 @@ def game(deck, target):
             my_total = sum(my_cards)
             ## bust
             if my_total > 21:
-                print("I busted, whoops")
+                print("I busted, whoops", my_total)
                 return 0
         else:
             stop_hit = True
@@ -111,13 +112,14 @@ def game(deck, target):
             dealer_total = sum(dealer_cards)
             ### dealer bust
             if dealer_total > 21: 
-                print("Dealer busted, I win")
+                print("Dealer busted, I win: ", dealer_total)
                 return 1
         else:
             stop_dealer_hit = True
         if stop_hit and stop_dealer_hit:
             break
-
+    print("dealer: ", dealer_total)
+    print("Me:", my_total)     
     if my_total > 21:
         return 0
     elif dealer_total > 21:
@@ -130,12 +132,8 @@ def game(deck, target):
     elif dealer_total == 21 and my_total == 21:
         return 0
     elif my_total > dealer_total:
-        print("dealer: ", dealer_total)
-        print("Me:", my_total) 
         return 1
-    elif my_total < dealer_total:
-        print("dealer: ", dealer_total)
-        print("Me:", my_total)         
+    elif my_total < dealer_total:     
         return 0
     else:
         # tie
